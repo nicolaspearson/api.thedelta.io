@@ -1,0 +1,66 @@
+{
+	"name": "node.contact.service",
+	"version": "0.0.1",
+	"description": "Contact Service",
+	"main": "dist",
+	"author": "Nicolas Pearson",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/nicolaspearson/api.thedelta.io"
+	},
+	"license": "MIT",
+	"scripts": {
+		"start": "npm run build && npm run watch",
+		"build": "rm -rf ./dist && npm run build:ts && npm run tslint && npm run copy:env && npm run copy:proto",
+		"build:ts": "tsc --rootDir ./src/ --allowJs",
+		"debug": "npm run build && npm run watch:debug",
+		"serve": "nodemon dist/index.js",
+		"serve:debug": "nodemon --inspect=5858 dist/index.js",
+		"watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch:ts\" \"npm run serve\"",
+		"watch:debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch:ts\" \"npm run serve:debug\"",
+		"watch:ts": "tsc -w",
+		"tslint": "tslint --fix -c tslint.json -p tsconfig.json",
+		"clean": "rm -rf node_modules && npm install",
+		"copy:env": "cp ./src/env/*.json ./dist/env/",
+		"copy:proto": "cp -r ./src/proto ./dist/"
+	},
+	"dependencies": {
+		"@grpc/proto-loader": "~0.4.0",
+		"class-validator": "~0.9.1",
+		"google-protobuf": "~3.7.0-rc.2",
+		"grpc": "~1.18.0",
+		"grpc-boom": "1.0.18",
+		"grpc-ts-health-check": "~1.0.10",
+		"grpc-ts-middleware": "~1.0.3",
+		"grpc-typeorm-infrastructure": "~1.0.5",
+		"module-alias": "~2.2.0",
+		"nconf": "~0.10.0",
+		"pg": "~7.8.0",
+		"reflect-metadata": "~0.1.13",
+		"typeorm": "~0.2.13",
+		"winston": "~3.2.1"
+	},
+	"devDependencies": {
+		"@types/google-protobuf": "~3.2.7",
+		"@types/nconf": "~0.10.0",
+		"@types/node": "~11.9.4",
+		"concurrently": "~4.1.0",
+		"dotenv": "~6.2.0",
+		"nodemon": "~1.18.10",
+		"ts-node": "~8.0.2",
+		"tslint": "~5.12.1",
+		"typescript": "~3.3.3"
+	},
+	"_moduleAliases": {
+		"@actions": "dist/actions/index",
+		"@db": "dist/db",
+		"@env": "dist/env/index",
+		"@logger": "dist/logger",
+		"@logic": "dist/logic",
+		"@models": "dist/models",
+		"@proto": "dist/proto",
+		"@repositories": "dist/repositories",
+		"@services": "dist/services",
+		"@utils": "dist/utils"
+	}
+}

@@ -1,0 +1,68 @@
+version: '3.5'
+
+networks:
+  back-tier:
+    driver: bridge
+    name: the-delta-ms-back
+
+services:
+  cert:
+    image: dev-cert-the-delta:latest
+    build:
+      context: './services/cert/development'
+    container_name: the-delta-dev-cert
+
+  envoy:
+    image: envoy-the-delta:1.0
+    build:
+      context: './envoy'
+    container_name: the-delta-envoy
+    command: usr/local/bin/envoy -c /etc/envoy/envoy.yaml -l info --log-path /tmp/envoy_info.log
+    depends_on:
+      - cert
+    expose:
+      - 9081
+      - 9901
+    ports:
+      - 9081:9081
+      - 9901:9901
+    networks:
+      - back-tier
+
+  postgres-the-delta:
+    hostname: postgres-the-delta
+    image: postgres:11
+    container_name: the-delta-postgres-central
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    volumes:
+      - ./services/the-delta-db/db-scripts:/docker-entrypoint-initdb.d
+      - ./services/the-delta-db/db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=thedelta
+      - POSTGRES_USER=master
+      - POSTGRES_PASSWORD=masterkey
+    networks:
+      - back-tier
+
+  contact-service:
+    image: contact-service-the-delta:1.0
+    build:
+      context: './services/contact-service'
+    links:
+      - postgres-the-delta
+    restart: always
+    container_name: the-delta-contact-service
+    expose:
+      - 9090
+    environment:
+      - NODE_ENV=staging
+      - DB_DELAY=15000
+      - DB_HOST=postgres-the-delta
+      - GRPC_LOG_LEVEL=DEBUG
+      - GRPC_HOST=0.0.0.0
+      - GRPC_PORT=9090
+    networks:
+      - back-tier

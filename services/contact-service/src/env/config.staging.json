@@ -1,0 +1,15 @@
+{
+	"ACCESS_TOKEN": "secret",
+	"DB_DELAY": 30000,
+	"DB_HOST": "localhost",
+	"DB_PORT": 5432,
+	"DB_NAME": "thedelta",
+	"DB_LOGGING": "all",
+	"DB_CONNECTION_NAME": "default",
+	"DB_SCHEMA": "contact",
+	"DB_PASSWORD": "masterkey",
+	"DB_USERNAME": "master",
+	"GRPC_LOG_LEVEL": "DEBUG",
+	"GRPC_HOST": "localhost",
+	"GRPC_PORT": "9090"
+}

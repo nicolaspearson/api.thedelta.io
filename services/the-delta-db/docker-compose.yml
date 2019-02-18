@@ -1,0 +1,18 @@
+version: '3.6'
+
+services:
+  db:
+    hostname: postgres-the-delta
+    image: postgres:11
+    container_name: the-delta-local-postgres-db
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db-scripts:/docker-entrypoint-initdb.d
+      - ./db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=thedelta
+      - POSTGRES_USER=master
+      - POSTGRES_PASSWORD=masterkey
