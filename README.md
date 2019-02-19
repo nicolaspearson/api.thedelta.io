@@ -46,7 +46,8 @@ Install the plugin: `npm install protoc-gen-grpc -g`
 Run the following command to generate the proto messages and the service client stub from .proto definitions:
 
 ```bash
-$ auth-service/proto-gen.sh
+$ cd ./services/contact-service
+$ ./proto-gen.sh
 ```
 
 ## Contribution guidelines
