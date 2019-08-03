@@ -32,7 +32,7 @@
 		"google-protobuf": "~3.9.0",
 		"grpc": "~1.22.2",
 		"grpc-boom": "1.0.23",
-		"grpc-ts-health-check": "2.0.0-beta.7",
+		"grpc-ts-health-check": "2.0.0",
 		"grpc-ts-middleware": "~1.0.7",
 		"grpc-typeorm-infrastructure": "~1.0.12",
 		"module-alias": "~2.2.1",
